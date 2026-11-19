@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>My Dispute with NatWest Bank</title>
+<style>
+  :root {
+    --indigo: #4338ca;
+    --violet: #7c3aed;
+    --teal: #0d9488;
+    --amber: #f59e0b;
+    --pink: #db2777;
+    --heading: #312e81;
+    --text: #475569;
+    --muted: #64748b;
+    --bg: #f5f7ff;
+    --surface: #ffffff;
+    --border: #e0e7ff;
+    --grad: linear-gradient(135deg, #4338ca 0%, #7c3aed 50%, #db2777 100%);
+    --grad-cool: linear-gradient(135deg, #4338ca 0%, #0d9488 100%);
+  }
+
+  *, *::before, *::after { box-sizing: border-box; }
+  [hidden] { display: none !important; }
+
+  html { scroll-behavior: smooth; }
+  html, body {
+    margin: 0;
+    padding: 0;
+    background: var(--bg);
+    color: var(--text);
+    font-family: "Segoe UI", system-ui, -apple-system, Roboto, Helvetica, Arial, sans-serif;
+    line-height: 1.65;
+    font-size: 17px;
+  }
+  body {
+    background:
+      radial-gradient(900px 500px at 100% 0%, rgba(124, 58, 237, 0.10), transparent 60%),
+      radial-gradient(800px 500px at 0% 40%, rgba(13, 148, 136, 0.10), transparent 60%),
+      var(--bg);
+    min-height: 100vh;
+  }
+
+  a { color: var(--indigo); }
+  h1, h2, h3 { line-height: 1.2; color: var(--heading); margin: 0; }
+
+  .wrap { max-width: 1120px; margin: 0 auto; padding: 0 22px; position: relative; }
+
+  /* ---------- Sticky glass header ---------- */
+  .site-header {
+    position: sticky;
+    top: 0;
+    z-index: 50;
+    background: rgba(255, 255, 255, 0.78);
+    backdrop-filter: blur(14px);
+    -webkit-backdrop-filter: blur(14px);
+    border-bottom: 1px solid var(--border);
+  }
+  .site-header .wrap {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px;
+    padding-top: 14px;
+    padding-bottom: 14px;
+  }
+  .brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    text-decoration: none;
+    font-weight: 700;
+    color: var(--heading);
+    font-size: 16px;
+  }
+  .brand-mark {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    background: var(--grad);
+    display: grid;
+    place-items: center;
+    color: #ffffff;
+    font-weight: 800;
+    box-shadow: 0 6px 16px rgba(124, 58, 237, 0.35);
+  }
+  .nav { display: flex; flex-wrap: wrap; gap: 4px; }
+  .nav a {
+    position: relative;
+    text-decoration: none;
+    color: var(--text);
+    font-weight: 600;
+    font-size: 15px;
+    padding: 8px 14px;
+    border-radius: 999px;
+    transition: color .25s, background .25s;
+  }
+  .nav a:hover { color: var(--indigo); background: var(--border); }
+  .nav a.active { color: #ffffff; background: var(--grad); box-shadow: 0 6px 14px rgba(67, 56, 202, 0.30); }
+
+  /* ---------- Buttons ---------- */
+  .btn {
+    position: relative;
+    overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    font-weight: 600;
+    font-size: 15px;
+    text-decoration: none;
+    color: #ffffff;
+    background: var(--grad);
+    padding: 12px 22px;
+    border-radius: 12px;
+    border: none;
+    cursor: pointer;
+    box-shadow: 0 10px 24px rgba(67, 56, 202, 0.28);
+    transition: transform .25s ease, box-shadow .25s ease;
+  }
+  .btn::after {
+    content: "";
+    position: absolute;
+    top: 0; left: -75%;
+    width: 50%; height: 100%;
+    background: linear-gradient(120deg, transparent, rgba(255,255,255,.45), transparent);
+    transform: skewX(-20deg);
+    transition: left .6s ease;
+  }
+  .btn:hover::after { left: 130%; }
+  .btn:hover { transform: translateY(-3px); box-shadow: 0 16px 32px rgba(67, 56, 202, 0.35); }
+  .btn-teal { background: var(--grad-cool); box-shadow: 0 10px 24px rgba(13, 148, 136, 0.30); }
+  .btn-ghost {
+    background: rgba(255, 255, 255, 0.9);
+    color: var(--indigo);
+    box-shadow: inset 0 0 0 2px var(--indigo);
+  }
+  .btn-ghost:hover { background: #ffffff; box-shadow: inset 0 0 0 2px var(--violet), 0 10px 22px rgba(67, 56, 202, 0.20); }
+  .btn-sm { padding: 9px 14px; font-size: 14px; border-radius: 10px; }
+
+  /* ---------- Hero ---------- */
+  .hero {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(120deg, #312e81, #4338ca, #7c3aed, #0d9488, #312e81);
+    background-size: 300% 300%;
+    animation: gradientShift 14s ease infinite;
+    color: #ffffff;
+    padding: 84px 0 92px;
+  }
+  .hero .wrap { z-index: 2; }
+  .blob {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(40px);
+    opacity: .55;
+    z-index: 1;
+    animation: float 12s ease-in-out infinite;
+    pointer-events: none;
+  }
+  .blob.b1 { width: 340px; height: 340px; background: #f59e0b; top: -110px; right: -60px; }
+  .blob.b2 { width: 260px; height: 260px; background: #db2777; bottom: -90px; left: 8%; animation-delay: -4s; }
+  .blob.b3 { width: 200px; height: 200px; background: #2dd4bf; top: 30%; left: 45%; animation-delay: -8s; opacity: .35; }
+
+  .eyebrow {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .14em;
+    text-transform: uppercase;
+    background: rgba(255, 255, 255, 0.16);
+    border: 1px solid rgba(255, 255, 255, 0.30);
+    padding: 7px 14px;
+    border-radius: 999px;
+    margin-bottom: 22px;
+    color: #ffffff;
+  }
+  .pulse {
+    width: 9px; height: 9px; border-radius: 50%;
+    background: #fbbf24;
+    box-shadow: 0 0 0 0 rgba(251, 191, 36, .7);
+    animation: pulse 2s infinite;
+  }
+  .hero h1 {
+    font-size: clamp(34px, 5.4vw, 60px);
+    font-weight: 800;
+    color: #ffffff;
+    letter-spacing: -0.02em;
+    max-width: 800px;
+    margin-bottom: 20px;
+  }
+  .hero h1 .hl {
+    background: linear-gradient(90deg, #fde68a, #fbbf24, #f9a8d4);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+  }
+  .hero .lead {
+    font-size: 19px;
+    max-width: 640px;
+    color: #e0e7ff;
+    margin: 0 0 32px;
+  }
+  .hero-actions { display: flex; flex-wrap: wrap; gap: 14px; }
+  .hero-actions .btn-ghost { background: rgba(255,255,255,.12); color: #ffffff; box-shadow: inset 0 0 0 2px rgba(255,255,255,.6); }
+  .hero-actions .btn-ghost:hover { background: rgba(255,255,255,.22); }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(170px, 1fr));
+    gap: 14px;
+    margin-top: 48px;
+    max-width: 720px;
+  }
+  .glass {
+    background: rgba(255, 255, 255, 0.14);
+    border: 1px solid rgba(255, 255, 255, 0.28);
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+    border-radius: 16px;
+    padding: 16px 18px;
+    transition: transform .3s ease, background .3s ease;
+  }
+  .glass:hover { transform: translateY(-4px); background: rgba(255,255,255,.22); }
+  .glass strong {
+    display: block;
+    font-size: 28px;
+    font-weight: 800;
+    color: #ffffff;
+  }
+  .glass span { font-size: 14px; color: #e0e7ff; }
+
+  /* ---------- Sections ---------- */
+  .section { padding: 84px 0; position: relative; }
+  .section.tight { padding-top: 0; }
+  .kicker {
+    display: inline-block;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: .12em;
+    text-transform: uppercase;
+    background: var(--grad);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
+    margin-bottom: 10px;
+  }
+  .section h2 {
+    font-size: clamp(28px, 3.6vw, 38px);
+    font-weight: 800;
+    letter-spacing: -0.01em;
+    margin-bottom: 12px;
+  }
+  .section-lead { max-width: 680px; margin: 0 0 40px; font-size: 18px; }
+  .section-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-end;
+    gap: 20px;
+    margin-bottom: 36px;
+  }
+  .section-head .section-lead { margin: 0; }
+
+  /* ---------- Document cards (home grid) ---------- */
+  .doc-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+    gap: 22px;
+  }
+  .doc-card {
+    position: relative;
+    background: var(--surface);
+    border-radius: 20px;
+    padding: 24px;
+    overflow: hidden;
+    border: 1px solid var(--border);
+    box-shadow: 0 8px 24px rgba(67, 56, 202, 0.07);
+    transition: transform .4s cubic-bezier(.2,.8,.2,1), box-shadow .4s ease;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .doc-card::before {
+    content: "";
+    position: absolute;
+    left: 0; top: 0; right: 0;
+    height: 5px;
+    background: var(--grad);
+    transform: scaleX(0.15);
+    transform-origin: left;
+    transition: transform .5s ease;
+  }
+  .doc-card:hover { transform: translateY(-8px); box-shadow: 0 22px 44px rgba(67, 56, 202, 0.20); }
+  .doc-card:hover::before { transform: scaleX(1); }
+  .doc-top { display: flex; justify-content: space-between; align-items: center; gap: 10px; }
+  .doc-badge {
+    width: 46px; height: 46px;
+    border-radius: 14px;
+    background: var(--grad);
+    color: #ffffff;
+    font-weight: 800;
+    display: grid;
+    place-items: center;
+    font-size: 15px;
+    box-shadow: 0 8px 18px rgba(124, 58, 237, 0.30);
+    transition: transform .4s ease;
+  }
+  .doc-card:hover .doc-badge { transform: rotate(-8deg) scale(1.08); }
+  .chip {
+    font-size: 12px;
+    font-weight: 700;
+    padding: 5px 10px;
+    border-radius: 999px;
+    white-space: nowrap;
+  }
+  .chip-date { background: #ccfbf1; color: #115e59; }
+  .chip-tbc { background: #fef3c7; color: #92400e; }
+  .doc-card h3 { font-size: 19px; font-weight: 700; }
+  .doc-card p { margin: 0; font-size: 15px; color: var(--muted); }
+  .doc-foot {
+    margin-top: auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 10px;
+    flex-wrap: wrap;
+    padding-top: 6px;
+  }
+  .doc-foot .pages { font-size: 13px; font-weight: 600; color: var(--indigo); }
+  .doc-foot .actions { display: flex; gap: 8px; }
+
+  .view-all { margin-top: 40px; text-align: center; }
+
+  /* ---------- Background / steps ---------- */
+  .band {
+    background: var(--surface);
+    border-top: 1px solid var(--border);
+    border-bottom: 1px solid var(--border);
+  }
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 22px;
+  }
+  .feature {
+    padding: 28px;
+    border-radius: 20px;
+    background: var(--bg);
+    border: 1px solid var(--border);
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .feature:hover { transform: translateY(-6px); box-shadow: 0 18px 36px rgba(13, 148, 136, 0.16); }
+  .feature .icon {
+    width: 52px; height: 52px;
+    border-radius: 16px;
+    display: grid; place-items: center;
+    font-weight: 800; font-size: 18px; color: #ffffff;
+    margin-bottom: 18px;
+  }
+  .i1 { background: linear-gradient(135deg, #4338ca, #6366f1); }
+  .i2 { background: linear-gradient(135deg, #0d9488, #14b8a6); }
+  .i3 { background: linear-gradient(135deg, #db2777, #f59e0b); }
+  .feature h3 { font-size: 19px; margin-bottom: 8px; }
+  .feature p { margin: 0; font-size: 15px; }
+
+  .placeholder {
+    background: #fef3c7;
+    color: #78350f;
+    border: 1px dashed #d97706;
+    padding: 2px 8px;
+    border-radius: 6px;
+    font-size: 14px;
+  }
+  .prose p { max-width: 760px; margin: 0 0 16px; }
+
+  /* ---------- Contact ---------- */
+  .contact {
+    position: relative;
+    overflow: hidden;
+    background: linear-gradient(135deg, #4338ca 0%, #7c3aed 55%, #0d9488 100%);
+    background-size: 200% 200%;
+    animation: gradientShift 16s ease infinite;
+    color: #ffffff;
+    padding: 80px 0;
+    text-align: center;
+    scroll-margin-top: 90px;
+  }
+  .contact h2 { color: #ffffff; font-size: clamp(28px, 3.6vw, 38px); }
+  .contact p { color: #e0e7ff; max-width: 620px; margin: 12px auto 28px; font-size: 18px; }
+  .email-link {
+    display: inline-block;
+    font-size: 19px;
+    font-weight: 700;
+    color: var(--heading);
+    background: #ffffff;
+    padding: 16px 30px;
+    border-radius: 999px;
+    text-decoration: none;
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.25);
+    transition: transform .3s ease, box-shadow .3s ease;
+  }
+  .email-link:hover { transform: translateY(-4px) scale(1.02); box-shadow: 0 22px 40px rgba(15, 23, 42, 0.30); }
+
+  .site-footer {
+    text-align: center;
+    font-size: 14px;
+    color: var(--muted);
+    padding: 26px 0 34px;
+  }
+  .site-footer a { color: var(--indigo); font-weight: 600; }
+
+  /* ---------- Document list page ---------- */
+  .page-hero {
+    background: var(--grad);
+    color: #ffffff;
+    padding: 64px 0 60px;
+    position: relative;
+    overflow: hidden;
+  }
+  .page-hero h1 { color: #ffffff; font-size: clamp(30px, 4.4vw, 46px); font-weight: 800; margin-bottom: 10px; }
+  .page-hero p { color: #e0e7ff; margin: 0; max-width: 680px; font-size: 18px; }
+  .page-hero .blob.b1 { top: -120px; right: -80px; }
+
+  .doc-list { display: flex; flex-direction: column; gap: 16px; }
+  .doc-row {
+    display: grid;
+    grid-template-columns: auto 1fr auto;
+    gap: 22px;
+    align-items: center;
+    background: var(--surface);
+    border: 1px solid var(--border);
+    border-radius: 18px;
+    padding: 20px 24px;
+    transition: transform .35s ease, box-shadow .35s ease;
+  }
+  .doc-row:hover { transform: translateX(8px); box-shadow: 0 16px 34px rgba(67, 56, 202, 0.14); }
+  .doc-row h3 { font-size: 18px; font-weight: 700; margin-bottom: 4px; }
+  .doc-row p { margin: 0; font-size: 15px; color: var(--muted); }
+  .doc-row .meta-line { margin-top: 8px; display: flex; gap: 8px; flex-wrap: wrap; }
+  .doc-row .actions { display: flex; gap: 8px; flex-wrap: wrap; justify-content: flex-end; }
+
+  /* ---------- Viewer ---------- */
+  .crumbs { font-size: 14px; color: var(--muted); margin: 0 0 22px; }
+  .crumbs a { color: var(--indigo); font-weight: 600; text-decoration: none; }
+  .viewer-head {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 18px;
+    margin-bottom: 28px;
+  }
+  .viewer-head h1 { font-size: clamp(26px, 3.8vw, 36px); font-weight: 800; max-width: 700px; margin-bottom: 8px; }
+  .viewer-head .meta { margin: 0; font-size: 15px; color: var(--muted); }
+  .paper {
+    position: relative;
+    background: #ffffff;
+    border-radius: 6px;
+    border-top: 6px solid transparent;
+    border-image: var(--grad) 1;
+    padding: clamp(26px, 5vw, 60px);
+    max-width: 840px;
+    margin: 0 auto;
+    box-shadow: 0 24px 50px rgba(67, 56, 202, 0.16);
+    animation: rise .6s ease both;
+  }
+  .paper .paper-label {
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: .1em;
+    color: var(--violet);
+    border-bottom: 1px solid var(--border);
+    padding-bottom: 12px;
+    margin: 0 0 24px;
+  }
+  .paper h2 { font-size: 22px; font-weight: 700; margin-bottom: 14px; }
+  .paper p { margin: 0 0 14px; font-size: 16px; }
+  .pager {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    flex-wrap: wrap;
+    max-width: 840px;
+    margin: 28px auto 0;
+  }
+
+  /* ---------- Reveal on scroll ---------- */
+  .reveal {
+    opacity: 0;
+    transform: translateY(28px);
+    transition: opacity .7s ease, transform .7s cubic-bezier(.2,.8,.2,1);
+    transition-delay: var(--d, 0ms);
+  }
+  .reveal.in { opacity: 1; transform: none; }
+
+  /* ---------- Keyframes ---------- */
+  @keyframes gradientShift {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  @keyframes float {
+    0%, 100% { transform: translate(0, 0) scale(1); }
+    50% { transform: translate(20px, -26px) scale(1.06); }
+  }
+  @keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(251, 191, 36, .7); }
+    70% { box-shadow: 0 0 0 12px rgba(251, 191, 36, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(251, 191, 36, 0); }
+  }
+  @keyframes rise {
+    from { opacity: 0; transform: translateY(18px); }
+    to { opacity: 1; transform: none; }
+  }
+
+  /* ---------- Responsive ---------- */
+  @media (max-width: 760px) {
+    body { font-size: 16px; }
+    .hero { padding: 56px 0 64px; }
+    .section { padding: 60px 0; }
+    .doc-row { grid-template-columns: 1fr; }
+    .doc-row .actions { justify-content: flex-start; }
+    .nav a { padding: 7px 10px; font-size: 14px; }
+    .brand { font-size: 15px; }
+  }
+
+  /* ---------- Respect reduced motion ---------- */
+  @media (prefers-reduced-motion: reduce) {
+    *, *::before, *::after {
+      animation: none !important;
+      transition: none !important;
+      scroll-behavior: auto !important;
+    }
+    .reveal { opacity: 1; transform: none; }
+  }
+</style>
+</head>
+<body>
+
+<header class="site-header">
+  <div class="wrap">
+    <a class="brand" href="#home"><span class="brand-mark">N</span>My Dispute with NatWest</a>
+    <nav class="nav" aria-label="Main">
+      <a href="#home" data-nav="home">Home</a>
+      <a href="#documents" data-nav="documents">All documents</a>
+      <a href="#contact" data-nav="contact">Contact</a>
+    </nav>
+  </div>
+</header>
+
+<!-- ===================== HOME ===================== -->
+<main data-view="home">
+
+  <section class="hero">
+    <div class="blob b1"></div>
+    <div class="blob b2"></div>
+    <div class="blob b3"></div>
+    <div class="wrap">
+      <span class="eyebrow"><span class="pulse"></span> Document archive</span>
+      <h1>My dispute with <span class="hl">NatWest Bank</span>, documented in one place</h1>
+      <p class="lead">This site sets out the background to the dispute and makes every related document available to read or download, in date order.</p>
+      <div class="hero-actions">
+        <a class="btn" href="#documents">Browse all documents</a>
+        <a class="btn btn-ghost" href="#background">Read the background</a>
+      </div>
+      <div class="stats">
+        <div class="glass reveal"><strong>20</strong><span>documents</span></div>
+        <div class="glass reveal" style="--d:100ms"><strong>1–2</strong><span>pages each</span></div>
+        <div class="glass reveal" style="--d:200ms"><strong>PDF</strong><span>read or download</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Documents on home -->
+  <section class="section" id="home-documents">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="kicker">Documents</p>
+          <h2>Everything in one place</h2>
+          <p class="section-lead">Read any document on the site or download it for your records. Dated documents appear first, oldest to newest.</p>
+        </div>
+      </div>
+      <div class="doc-grid" id="homeGrid"></div>
+      <div class="view-all reveal">
+        <a class="btn" href="#documents">See the full list</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Background -->
+  <section class="section band" id="background">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div>
+          <p class="kicker">Background</p>
+          <h2>How the dispute developed</h2>
+          <p class="section-lead">A short summary of the key stages, with the documents that support each one.</p>
+        </div>
+      </div>
+      <div class="feature-grid">
+        <div class="feature reveal">
+          <div class="icon i1">1</div>
+          <h3>How it started</h3>
+          <p><span class="placeholder">[Summary of how the dispute began and the accounts or services involved.]</span></p>
+        </div>
+        <div class="feature reveal" style="--d:120ms">
+          <div class="icon i2">2</div>
+          <h3>Key stages</h3>
+          <p><span class="placeholder">[Complaints made, responses received, and any escalation.]</span></p>
+        </div>
+        <div class="feature reveal" style="--d:240ms">
+          <div class="icon i3">3</div>
+          <h3>Current position</h3>
+          <p><span class="placeholder">[Where the matter stands today and what is being requested.]</span></p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact -->
+  <section class="contact" id="contact">
+    <div class="blob b2" style="opacity:.35"></div>
+    <div class="wrap reveal">
+      <p class="kicker" style="background:none;-webkit-text-fill-color:#fde68a;color:#fde68a">Get in touch</p>
+      <h2>Questions about any document?</h2>
+      <p>Send your questions or further correspondence directly by email.</p>
+      <a class="email-link" href="mailto:rubycooper1@hotmail.co.uk">rubycooper1@hotmail.co.uk</a>
+    </div>
+  </section>
+
+  <footer class="site-footer">
+    <div class="wrap">
+      <p>Email: <a href="mailto:rubycooper1@hotmail.co.uk">rubycooper1@hotmail.co.uk</a></p>
+    </div>
+  </footer>
+</main>
+
+<!-- ===================== DOCUMENT LIST ===================== -->
+<main data-view="documents" hidden>
+  <section class="page-hero">
+    <div class="blob b1"></div>
+    <div class="wrap">
+      <p class="kicker" style="background:none;-webkit-text-fill-color:#fde68a;color:#fde68a">All documents</p>
+      <h1>Complete document list</h1>
+      <p>Listed in chronological order where a date is known. Each document is one or two pages.</p>
+    </div>
+  </section>
+  <section class="section">
+    <div class="wrap">
+      <div class="doc-list" id="docList"></div>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="wrap"><p>Email: <a href="mailto:rubycooper1@hotmail.co.uk">rubycooper1@hotmail.co.uk</a></p></div>
+  </footer>
+</main>
+
+<!-- ===================== DOCUMENT VIEWER ===================== -->
+<main data-view="doc" hidden>
+  <section class="section" style="padding-top:48px">
+    <div class="wrap">
+      <p class="crumbs"><a href="#documents">All documents</a> &nbsp;/&nbsp; <span id="crumbCurrent"></span></p>
+      <div id="docView"></div>
+    </div>
+  </section>
+  <footer class="site-footer">
+    <div class="wrap"><p>Email: <a href="mailto:rubycooper1@hotmail.co.uk">rubycooper1@hotmail.co.uk</a></p></div>
+  </footer>
+</main>
+
+<script>
+  /*
+    DOCUMENT DATA
+    One list drives the homepage grid, the full list, the viewer and the navigation.
+    To add, replace or remove a document, edit this list only.
+      id:          two-digit reference, unique
+      title:       document title
+      date:        "YYYY-MM-DD" when known, or null when not yet confirmed
+      pages:       page count shown to the reader
+      description: one-line summary
+      file:        PDF used for the download link
+  */
+  const DOCS = [
+    { id: "01", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/01.pdf" },
+    { id: "02", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/02.pdf" },
+    { id: "03", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/03.pdf" },
+    { id: "04", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/04.pdf" },
+    { id: "05", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/05.pdf" },
+    { id: "06", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/06.pdf" },
+    { id: "07", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/07.pdf" },
+    { id: "08", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/08.pdf" },
+    { id: "09", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/09.pdf" },
+    { id: "10", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/10.pdf" },
+    { id: "11", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/11.pdf" },
+    { id: "12", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/12.pdf" },
+    { id: "13", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/13.pdf" },
+    { id: "14", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/14.pdf" },
+    { id: "15", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/15.pdf" },
+    { id: "16", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/16.pdf" },
+    { id: "17", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/17.pdf" },
+    { id: "18", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/18.pdf" },
+    { id: "19", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/19.pdf" },
+    { id: "20", title: "Document title", date: null, pages: "1–2", description: "Short description of what this document shows.", file: "documents/20.pdf" }
+  ];
+
+  // Chronological: dated items oldest to newest, then undated items by reference.
+  function sortedDocs() {
+    return [...DOCS].sort((a, b) => {
+      if (a.date && b.date) return a.date.localeCompare(b.date) || a.id.localeCompare(b.id);
+      if (a.date) return -1;
+      if (b.date) return 1;
+      return a.id.localeCompare(b.id);
+    });
+  }
+
+  function formatDate(d) {
+    return new Date(d + "T00:00:00").toLocaleDateString("en-GB", { day: "numeric", month: "long", year: "numeric" });
+  }
+  function chipText(d) {
+    return d ? formatDate(d) : "Date to be confirmed";
+  }
+
+  function renderHomeGrid() {
+    document.getElementById("homeGrid").innerHTML = sortedDocs().map((doc, i) => `
+      <article class="doc-card reveal" style="--d:${(i % 4) * 90}ms">
+        <div class="doc-top">
+          <span class="doc-badge">${doc.id}</span>
+          <span class="chip ${doc.date ? "chip-date" : "chip-tbc"}">${chipText(doc.date)}</span>
+        </div>
+        <h3>${doc.title}</h3>
+        <p>${doc.description}</p>
+        <div class="doc-foot">
+          <span class="pages">${doc.pages} pages</span>
+          <div class="actions">
+            <a class="btn btn-sm" href="#doc-${doc.id}">Read</a>
+            <a class="btn btn-sm btn-ghost" href="${doc.file}" download>Download</a>
+          </div>
+        </div>
+      </article>`).join("");
+  }
+
+  function renderList() {
+    document.getElementById("docList").innerHTML = sortedDocs().map((doc, i) => `
+      <article class="doc-row reveal" style="--d:${Math.min(i, 6) * 60}ms">
+        <span class="doc-badge">${doc.id}</span>
+        <div>
+          <h3>${doc.title}</h3>
+          <p>${doc.description}</p>
+          <div class="meta-line">
+            <span class="chip ${doc.date ? "chip-date" : "chip-tbc"}">${chipText(doc.date)}</span>
+            <span class="chip" style="background:#ede9fe;color:#5b21b6">${doc.pages} pages</span>
+          </div>
+        </div>
+        <div class="actions">
+          <a class="btn btn-sm" href="#doc-${doc.id}">Read</a>
+          <a class="btn btn-sm btn-ghost" href="${doc.file}" download>Download</a>
+        </div>
+      </article>`).join("");
+  }
+
+  function renderDoc(id) {
+    const ordered = sortedDocs();
+    const index = ordered.findIndex(d => d.id === id);
+    if (index === -1) return false;
+    const doc = ordered[index];
+    const prev = ordered[index - 1];
+    const next = ordered[index + 1];
+
+    document.getElementById("crumbCurrent").textContent = `Document ${doc.id}`;
+    document.getElementById("docView").innerHTML = `
+      <div class="viewer-head">
+        <div>
+          <h1>${doc.title}</h1>
+          <p class="meta">${chipText(doc.date)} &middot; ${doc.pages} pages</p>
+        </div>
+        <a class="btn btn-teal" href="${doc.file}" download>Download PDF</a>
+      </div>
+      <div class="paper">
+        <p class="paper-label">Document ${doc.id} &middot; Reading view</p>
+        <h2>${doc.title}</h2>
+        <p>${doc.description}</p>
+        <p><span class="placeholder">[Full text or embedded PDF appears here once the document is supplied.]</span></p>
+        <p><span class="placeholder">[Page 2 content, if applicable.]</span></p>
+      </div>
+      <div class="pager">
+        ${prev ? `<a class="btn btn-ghost" href="#doc-${prev.id}">&larr; Document ${prev.id}</a>` : `<span></span>`}
+        ${next ? `<a class="btn btn-ghost" href="#doc-${next.id}">Document ${next.id} &rarr;</a>` : `<span></span>`}
+      </div>`;
+    return true;
+  }
+
+  // Scroll reveal: elements fade and rise in as they enter the screen.
+  const observer = new IntersectionObserver(entries => {
+    entries.forEach(e => {
+      if (e.isIntersecting) {
+        e.target.classList.add("in");
+        observer.unobserve(e.target);
+      }
+    });
+  }, { threshold: 0.12 });
+
+  function initReveal() {
+    document.querySelectorAll(".reveal:not(.in)").forEach(el => observer.observe(el));
+  }
+
+  function show(view) {
+    document.querySelectorAll("[data-view]").forEach(el => {
+      el.hidden = el.dataset.view !== view;
+    });
+    document.querySelectorAll("[data-nav]").forEach(a => {
+      const active = a.dataset.nav === view || (view === "doc" && a.dataset.nav === "documents");
+      a.classList.toggle("active", active);
+    });
+  }
+
+  function route() {
+    const hash = location.hash.replace("#", "") || "home";
+
+    if (hash.startsWith("doc-") && renderDoc(hash.slice(4))) {
+      show("doc");
+      window.scrollTo(0, 0);
+    } else if (hash === "documents") {
+      show("documents");
+      window.scrollTo(0, 0);
+    } else if (hash === "contact" || hash === "background") {
+      show("home");
+      requestAnimationFrame(() => {
+        document.getElementById(hash).scrollIntoView({ behavior: "smooth", block: "start" });
+      });
+    } else {
+      show("home");
+      window.scrollTo(0, 0);
+    }
+
+    requestAnimationFrame(initReveal);
+  }
+
+  renderHomeGrid();
+  renderList();
+  window.addEventListener("hashchange", route);
+  route();
+</script>
+
+</body>
+</html>
